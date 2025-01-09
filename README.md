@@ -107,7 +107,7 @@
     </div>
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="搜尋關鍵字...">
-        <button onclick="searchContent()">搜尋</button>
+        <button onclick="filterSections()">搜尋</button>
     </div>
     <div class="container">
         <h1>玩家地圖推薦</h1>
@@ -142,7 +142,7 @@
         }
         // 搜尋功能
         function filterSections() {
-            const query = document.getElementById('search').value.toLowerCase();
+            const query = document.getElementById('searchInput').value.toLowerCase();
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => {
                 const keywords = section.getAttribute('data-keywords').toLowerCase();
