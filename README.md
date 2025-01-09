@@ -111,18 +111,18 @@
     </div>
     <div class="container">
         <!-- Section 1 -->
-        <div class="section" data-keywords="">
+        <div class="section" data-keywords="1">
             <h1>up coming</h1>
             <img src="" alt="up coming">
             <p id="text1">#</p>
             <button class="copy-btn" onclick="copyText('text1')">複製代碼</button>
         </div>
-        <!-- Section 1 -->
-        <div class="section" data-keywords="">
+        <!-- Section 2 -->
+        <div class="section" data-keywords="2">
             <h1>up coming</h1>
             <img src="" alt="up coming">
-            <p id="text1">#</p>
-            <button class="copy-btn" onclick="copyText('text1')">複製代碼</button>
+            <p id="text2">#</p>
+            <button class="copy-btn" onclick="copyText('text2')">複製代碼</button>
         </div>
     <script>
         // 切換漢堡菜單顯示
