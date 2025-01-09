@@ -117,6 +117,13 @@
             <p id="text1">#</p>
             <button class="copy-btn" onclick="copyText('text1')">複製代碼</button>
         </div>
+        <!-- Section 1 -->
+        <div class="section" data-keywords="">
+            <h1>up coming</h1>
+            <img src="" alt="up coming">
+            <p id="text1">#</p>
+            <button class="copy-btn" onclick="copyText('text1')">複製代碼</button>
+        </div>
     <script>
         // 切換漢堡菜單顯示
         function toggleMenu() {
