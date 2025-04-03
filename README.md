@@ -3,71 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>玩家提交的地圖 - ISCG</title>
+    <title>Free Fire 創意地圖</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 15px 0;
-            font-size: 1.5em;
-        }
-        #maps-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .map-card {
-            background: white;
-            padding: 15px;
-            margin: 10px;
-            border-radius: 8px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: left;
-        }
-        .map-card img {
-            width: 100%;
-            border-radius: 5px;
-        }
-        .map-card h3 {
-            margin-top: 0;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .map-card { border: 1px solid #ddd; padding: 10px; margin: 10px; display: inline-block; width: 300px; }
+        .map-card img { max-width: 100%; height: auto; }
+        .delete-btn { background-color: red; color: white; border: none; padding: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>玩家提交的 Free Fire 地圖</h1>
-    </header>
-    <main>
-        <div id="maps-container">載入中...</div>
-    </main>
+    <h1>玩家上傳的 Free Fire 創意地圖</h1>
+    <!-- 搜索功能 -->
+    <input type="text" id="search-box" placeholder="輸入關鍵字搜尋..." onkeyup="searchMaps()">
+    <div id="maps-container"></div>
     <script>
-        fetch("https://script.google.com/macros/s/AKfycbwywm2WdSsHxnl3gi8uKqGzg6Jcr5SY3e6Cez55e4uJ11c-imORT6nd_3Lqp5tekEG4Fg/exec")
-          .then(response => response.json())
-          .then(data => {
-            let content = "";
+        const apiUrl = "https://script.google.com/macros/s/AKfycbxdLOqt-in5szwmn79cFaXmRsA0tCqZzF2cWwwsRVzJV_-v9Omw2QHJ8C5HYr5j1rNySA/exec";
+        async function fetchMaps() {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            displayMaps(data);
+        }
+        function displayMaps(data) {
+            let container = document.getElementById("maps-container");
+            container.innerHTML = "";
             data.forEach(item => {
-              content += `
-                <div class="map-card">
-                  <h3>${item.map_name}</h3>
-                  <p><b>作者：</b>${item.name}</p>
-                  <p><b>簡介：</b>${item.description}</p>
-                  <p><b>地圖代碼：</b>${item.code}</p>
-                  <img src="${item.image}" alt="地圖圖片">
-                </div>
-              `;
+                let mapCard = document.createElement("div");
+                mapCard.className = "map-card";
+                mapCard.innerHTML = `
+                    <h3>${item.map_name}</h3>
+                    <p><b>作者：</b>${item.name}</p>
+                    <p><b>簡介：</b>${item.description}</p>
+                    <p><b>地圖代碼：</b>${item.code}</p>
+                    <img src="${item.image}" alt="地圖圖片">
+                    <br>
+                    <button class="delete-btn" onclick="deleteMap('${item.id}')">刪除</button>
+                `;
+                container.appendChild(mapCard);
             });
-            document.getElementById("maps-container").innerHTML = content;
-          })
-          .catch(error => console.error("載入失敗", error));
+        }
+        function searchMaps() {
+            let searchText = document.getElementById("search-box").value.toLowerCase();
+            let cards = document.getElementsByClassName("map-card");
+            Array.from(cards).forEach(card => {
+                let text = card.innerText.toLowerCase();
+                card.style.display = text.includes(searchText) ? "block" : "none";
+            });
+        }
+        async function deleteMap(id) {
+            let password = prompt("請輸入管理者密碼刪除內容:");
+            if (password !== "your_admin_password") {
+                alert("密碼錯誤，無法刪除！");
+                return;
+            }
+            await fetch(apiUrl + `?delete=${id}`, { method: "GET" });
+            alert("已刪除！");
+            fetchMaps(); // 重新載入資料
+        }
+        fetchMaps(); // 載入地圖資料
     </script>
 </body>
 </html>
