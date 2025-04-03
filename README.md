@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <h1>iscg-yt.github.io<h1>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Fire 創意地圖</title>
@@ -13,16 +12,21 @@
     </style>
 </head>
 <body>
-    <h1>玩家上傳的 Free Fire 創意地圖</h1>
+    <h1>玩家上傳的 Free Fire 地圖</h1>
     <!-- 搜索功能 -->
     <input type="text" id="search-box" placeholder="輸入關鍵字搜尋..." onkeyup="searchMaps()">
     <div id="maps-container"></div>
     <script>
-        const apiUrl = "https://script.google.com/macros/s/AKfycbxdLOqt-in5szwmn79cFaXmRsA0tCqZzF2cWwwsRVzJV_-v9Omw2QHJ8C5HYr5j1rNySA/exec";
+        // 使用新的 Google Apps Script API 連結
+        const apiUrl = "https://script.google.com/macros/s/AKfycbxRs1qtaNJs58CW8k_XalVmTZYJ3kpiA4Drw-T9bx0XLBtZs1SG4rDi9aq1EHp1fb6YQQ/exec";
         async function fetchMaps() {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            displayMaps(data);
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                displayMaps(data);
+            } catch (error) {
+                console.error("讀取地圖失敗", error);
+            }
         }
         function displayMaps(data) {
             let container = document.getElementById("maps-container");
